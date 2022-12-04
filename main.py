@@ -10,6 +10,8 @@ hauteur=72
 taillePixel=10
 #epaisseur du quadrillage
 tailleQuadrillage=1
+#comme si les bords se touchent
+cyclique=True
 #initialisation de notre tableau de vie
 tableauDeVie=[[0 for x in range(largeur)] for y in range(hauteur)]
 #initialisation des différentes couleurs du jeu
@@ -67,21 +69,36 @@ def dessineUneBrique(ecran,taillePixel,tailleQuadrillage,celluleCouleur,x,y):
      pygame.draw.rect(ecran, celluleCouleur, pygame.Rect(tailleQuadrillage+tailleQuadrillage*x+x*taillePixel,tailleQuadrillage+tailleQuadrillage*y+y*taillePixel, taillePixel, taillePixel))
 
 #donne le nombre de cellules voisines vivantes
-def voisin(tableauDeVie,largeur,hauteur,x,y):
+def voisin(tableauDeVie,largeur,hauteur,x,y,cyclique):
     nVoisin = 0
-    if x>0 and y>0 and x<largeur-1 and y<hauteur-1 :
-        nVoisin=tableauDeVie[x-1][y-1] + tableauDeVie[x][y-1] + tableauDeVie[x+1][y-1] + tableauDeVie[x-1][y] + tableauDeVie[x+1][y] +tableauDeVie[x-1][y+1] + tableauDeVie[x][y+1] + tableauDeVie[x+1][y+1]
+    if not cyclique:
+        if x>0 and y>0 and x<largeur-1 and y<hauteur-1 :
+            nVoisin=tableauDeVie[x-1][y-1] + tableauDeVie[x][y-1] + tableauDeVie[x+1][y-1] + tableauDeVie[x-1][y] + tableauDeVie[x+1][y] +tableauDeVie[x-1][y+1] + tableauDeVie[x][y+1] + tableauDeVie[x+1][y+1]
+    else:
+        xmoinsun=x-1
+        if xmoinsun<1:
+            xmoinsun=largeur-1
+        ymoinsun=y-1
+        if ymoinsun<1:
+            ymoinsun=hauteur-1
+        xplusun=x+1
+        if xplusun>largeur-1:
+            xplusun=1
+        yplusun=y+1
+        if yplusun>hauteur-1:
+            yplusun=1
+        nVoisin=tableauDeVie[xmoinsun][ymoinsun] + tableauDeVie[x][ymoinsun] + tableauDeVie[xplusun][ymoinsun] + tableauDeVie[xmoinsun][y] + tableauDeVie[xplusun][y] +tableauDeVie[xmoinsun][yplusun] + tableauDeVie[x][yplusun] + tableauDeVie[xplusun][yplusun]
     return nVoisin
 
 #Applique l'algo du jeu de la vie avance la vie d'un temps
-def evolue(tableauDeVie,largeur,hauteur):
+def evolue(tableauDeVie,largeur,hauteur,cyclique):
     tableauSuivant=[[0 for x in range(largeur)] for y in range(hauteur)]
     for x in range(largeur):
         for y in range(hauteur):
             tableauSuivant[x][y]=tableauDeVie[x][y]
     for x in range(largeur):
         for y in range(hauteur):
-            nVoisin=voisin(tableauDeVie,largeur,hauteur,x,y)
+            nVoisin=voisin(tableauDeVie,largeur,hauteur,x,y,cyclique)
             if tableauDeVie[x][y]==1:
                 if nVoisin < 2 or nVoisin > 3:
                     tableauSuivant[x][y]=0
@@ -122,7 +139,7 @@ tempsPasse = False
 vie=1
 while continuer:
     if tempsPasse:
-        evolue(tableauDeVie,largeur,hauteur)
+        evolue(tableauDeVie,largeur,hauteur,cyclique)
         dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
@@ -137,7 +154,7 @@ while continuer:
                 continuer = False
             elif event.key==pygame.K_RIGHT:
                 tempsPasse = False
-                evolue(tableauDeVie,largeur,hauteur)
+                evolue(tableauDeVie,largeur,hauteur,cyclique)
                 dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
         if event.type == pygame.QUIT:
             continuer = False
