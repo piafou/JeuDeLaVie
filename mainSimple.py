@@ -10,9 +10,8 @@ tailleCell=10
 #initialisation de notre tableau de vie
 tableauDeVie=[[0 for x in range(taille)] for y in range(taille)]
 #initialisation des différentes couleurs du jeu
-quadrillageCouleur=pygame.Color(50,50,200)
-fondCouleur=pygame.Color(50,50,0)
-celluleCouleur=pygame.Color(190,170,0)
+fondCouleur=pygame.Color(20,20,10)
+celluleCouleur=pygame.Color(50,50,200)
 #création de notre fenetre de jeux
 ecran = pygame.display.set_mode((tailleCell*taille, tailleCell*taille))
 ecran.fill(fondCouleur)
