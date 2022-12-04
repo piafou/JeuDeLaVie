@@ -10,7 +10,8 @@
 
   clique gauche on créé des cellules ( on peut maintenir le clique et deplacer la souris)  
   clique droit on  détruit des cellules ( on peut maintenir le clique et deplacer la souris)  
-  en mode stop le bouton du milieu réinitialise le tableau.  
+  en mode stop : le bouton du milieu réinitialise le tableau. 
+                 la touche 1 2 3 génére des planeurs
   la touche espace lance le temps et l'arrete  
   touche fleche droite fait du pas à pas
   la touche echappe quit le jeu.  
@@ -21,4 +22,4 @@
   
 # ToDo  
 
-  Ajouter des patterns glider gun ...  
+  corriger cyclique ...  

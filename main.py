@@ -27,6 +27,82 @@ pygame.display.set_caption("Le jeux de la vie !")
 continuer = True
 nDelai=50
 
+#=============================================planeur
+
+def planeur1(tableauDeVie,largeur,hauteur,taillePixel,tailleQuadrillage,x,y):
+    xx=t(x//(taillePixel+tailleQuadrillage),largeur)
+    yy=t(y//(taillePixel+tailleQuadrillage),hauteur)
+    tableauDeVie[xx][yy]=1
+    tableauDeVie[t(xx+1,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+2,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+2,largeur)][t(yy,hauteur)]=1
+    tableauDeVie[t(xx+2,largeur)][t(yy-1,hauteur)]=1
+
+def planeur2(tableauDeVie,largeur,hauteur,taillePixel,tailleQuadrillage,x,y):
+    xx=t(x//(taillePixel+tailleQuadrillage),largeur)
+    yy=t(y//(taillePixel+tailleQuadrillage),hauteur)
+    tableauDeVie[xx][yy]=1
+    tableauDeVie[t(xx,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+1,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+2,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+3,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+4,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+4,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+4,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+3,largeur)][t(yy,hauteur)]=1
+
+def canon(tableauDeVie,largeur,hauteur,taillePixel,tailleQuadrillage,x,y):
+    xx=t(x//(taillePixel+tailleQuadrillage),largeur)
+    yy=t(y//(taillePixel+tailleQuadrillage),hauteur)
+    tableauDeVie[xx][yy]=1
+    tableauDeVie[t(xx+1,largeur)][t(yy,hauteur)]=1
+    tableauDeVie[t(xx,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+1,largeur)][t(yy+1,hauteur)]=1
+
+    tableauDeVie[t(xx+10,largeur)][t(yy,hauteur)]=1
+    tableauDeVie[t(xx+10,largeur)][t(yy-1,hauteur)]=1
+    tableauDeVie[t(xx+10,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+11,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+12,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+13,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+11,largeur)][t(yy-2,hauteur)]=1
+    tableauDeVie[t(xx+12,largeur)][t(yy-3,hauteur)]=1
+    tableauDeVie[t(xx+13,largeur)][t(yy-3,hauteur)]=1
+    tableauDeVie[t(xx+14,largeur)][t(yy,hauteur)]=1
+    tableauDeVie[t(xx+15,largeur)][t(yy-2,hauteur)]=1
+    tableauDeVie[t(xx+15,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+16,largeur)][t(yy-1,hauteur)]=1
+    tableauDeVie[t(xx+16,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+16,largeur)][t(yy,hauteur)]=1
+    tableauDeVie[t(xx+17,largeur)][t(yy,hauteur)]=1
+
+    tableauDeVie[t(xx+20,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+20,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+20,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+21,largeur)][t(yy+1,hauteur)]=1
+    tableauDeVie[t(xx+21,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+21,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+22,largeur)][t(yy+4,hauteur)]=1
+    tableauDeVie[t(xx+22,largeur)][t(yy,hauteur)]=1
+
+    tableauDeVie[t(xx+24,largeur)][t(yy,hauteur)]=1
+    tableauDeVie[t(xx+24,largeur)][t(yy-1,hauteur)]=1
+    tableauDeVie[t(xx+24,largeur)][t(yy+4,hauteur)]=1
+    tableauDeVie[t(xx+24,largeur)][t(yy+5,hauteur)]=1
+
+    tableauDeVie[t(xx+34,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+34,largeur)][t(yy+3,hauteur)]=1
+    tableauDeVie[t(xx+35,largeur)][t(yy+2,hauteur)]=1
+    tableauDeVie[t(xx+35,largeur)][t(yy+3,hauteur)]=1   
+
+def t(value,taille):
+    return value%taille
+
+
+
+
+#======================================================
+
 
 #fonction qui dessine le quadrillage
 def drawQuadrillage(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,quadrillageCouleur):
@@ -156,6 +232,24 @@ while continuer:
                 tempsPasse = False
                 evolue(tableauDeVie,largeur,hauteur,cyclique)
                 dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
+            elif event.key==pygame.K_1:
+                if not tempsPasse:
+                    pos=pygame.mouse.get_pos()
+                    planeur1(tableauDeVie,largeur,hauteur,taillePixel,tailleQuadrillage,pos[0],pos[1])
+                    dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
+                    pygame.display.flip()
+            elif event.key==pygame.K_2:
+                if not tempsPasse:
+                    pos=pygame.mouse.get_pos()
+                    planeur2(tableauDeVie,largeur,hauteur,taillePixel,tailleQuadrillage,pos[0],pos[1])
+                    dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
+                    pygame.display.flip()
+            elif event.key==pygame.K_3:
+                if not tempsPasse:
+                    pos=pygame.mouse.get_pos()
+                    canon(tableauDeVie,largeur,hauteur,taillePixel,tailleQuadrillage,pos[0],pos[1])
+                    dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
+                    pygame.display.flip()
         if event.type == pygame.QUIT:
             continuer = False
         if event.type == pygame.MOUSEBUTTONDOWN:
