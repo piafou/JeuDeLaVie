@@ -135,7 +135,8 @@ while continuer:
                     pygame.display.set_caption("Le jeux de la vie ! le temps est arrété")
             elif event.key==pygame.K_ESCAPE:
                 continuer = False
-            elif event.key==pygame.K_RIGHT and not tempsPasse:
+            elif event.key==pygame.K_RIGHT:
+                tempsPasse = False
                 evolue(tableauDeVie,largeur,hauteur)
                 dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
         if event.type == pygame.QUIT:
