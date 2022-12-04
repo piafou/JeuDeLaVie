@@ -9,8 +9,7 @@ pygame : https://www.pygame.org/
 # utilisation
 
 clique gauche on créé des cellules ( on peut maintenir le clique et deplacer la souris)
-clique doit on lance le jeux si il est lancé on le stop.
-
+clique droit on lance le jeux si il est lancé on le stop.
 en mode stop la touche espace réinitialise le tableau.
 la touche echappe quit le jeu.
 
