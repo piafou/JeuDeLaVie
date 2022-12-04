@@ -4,8 +4,8 @@ import pygame
 pygame.init()
 
 #Taille du tableau de la vie
-largeur=102
-hauteur=102
+largeur=72
+hauteur=72
 #Taille de la taille d'une brique elementaire d'une cellule (carré)
 taillePixel=10
 #epaisseur du quadrillage
@@ -41,21 +41,25 @@ def drawQuadrillage(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,quadrill
         pygame.draw.rect(ecran, quadrillageCouleur, pygame.Rect(0, y*(taillePixel+tailleQuadrillage), taillePixel*largeur+largeur*tailleQuadrillage+tailleQuadrillage, tailleQuadrillage))
 
 # on créé une brique de cellule
-def Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,pos,tableauDeVie):
+def Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,pos,tableauDeVie,vie):
     x=pos[0]
     y=pos[1]
     xtableauDeVie=-1
     ytableauDeVie=-1
-    for xTrav in range(largeur):
+    for xTrav in range(1,largeur-1):
         if x < xTrav*tailleQuadrillage+taillePixel*(xTrav+1)  and x > xTrav*tailleQuadrillage+taillePixel*xTrav :
             xtableauDeVie=xTrav
-    for yTrav in range(hauteur):
+    for yTrav in range(1,hauteur-1):
         if y < yTrav*tailleQuadrillage+taillePixel*(yTrav+1)  and y > yTrav*tailleQuadrillage+taillePixel*yTrav :
             ytableauDeVie=yTrav
     if xtableauDeVie !=-1 and ytableauDeVie !=-1 :
-        tableauDeVie[xtableauDeVie][ytableauDeVie]=1
-        dessineUneBrique(ecran,taillePixel,tailleQuadrillage,celluleCouleur,xtableauDeVie,ytableauDeVie)
-        #dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
+        if tableauDeVie[xtableauDeVie][ytableauDeVie]!=vie:
+            tableauDeVie[xtableauDeVie][ytableauDeVie]=vie
+        if vie==0:
+            dessineUneBrique(ecran,taillePixel,tailleQuadrillage,fondCouleur,xtableauDeVie,ytableauDeVie)
+        else:
+            dessineUneBrique(ecran,taillePixel,tailleQuadrillage,celluleCouleur,xtableauDeVie,ytableauDeVie)
+
     pygame.display.flip()
 
 # dessine une case du tableau
@@ -115,34 +119,44 @@ drawQuadrillage(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,quadrillageC
 pygame.display.flip()
 bougeSouris = False
 tempsPasse = False
+vie=1
 while continuer:
     if tempsPasse:
         evolue(tableauDeVie,largeur,hauteur)
         dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key==pygame.K_SPACE and (not tempsPasse):
-                initialiser(ecran,tableauDeVie,largeur,hauteur,fondCouleur)
-            if event.key==pygame.K_ESCAPE:
-                continuer = False
-        if event.type == pygame.QUIT:
-            continuer = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 and not tempsPasse:
-                bougeSouris = True
-                Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,event.pos,tableauDeVie)
-            if event.button == 3 or (event.button == 1 and tempsPasse):
+            if event.key==pygame.K_SPACE:
                 tempsPasse= not tempsPasse
                 if tempsPasse:
                     pygame.display.set_caption("Le jeux de la vie ! le temps passe")
                     bougeSouris = False
                 else:
                     pygame.display.set_caption("Le jeux de la vie ! le temps est arrété")
+            elif event.key==pygame.K_ESCAPE:
+                continuer = False
+            elif event.key==pygame.K_RIGHT and not tempsPasse:
+                evolue(tableauDeVie,largeur,hauteur)
+                dessineTableau(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,tableauDeVie)
+        if event.type == pygame.QUIT:
+            continuer = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and not tempsPasse:
+                bougeSouris = True
+                vie=1
+                Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,event.pos,tableauDeVie,vie)
+            if event.button == 2 and not tempsPasse:
+                initialiser(ecran,tableauDeVie,largeur,hauteur,fondCouleur)               
+            if event.button == 3 and not tempsPasse:
+                bougeSouris = True
+                vie=0
+                Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,event.pos,tableauDeVie,vie)
         if event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
+            if event.button == 1 or  event.button == 3:
                 bougeSouris = False
         if event.type == pygame.MOUSEMOTION and bougeSouris:
-            Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,event.pos,tableauDeVie)
+            print(event.pos)
+            Donnelavie(ecran,largeur,hauteur,taillePixel,tailleQuadrillage,celluleCouleur,fondCouleur,event.pos,tableauDeVie,vie)
     if tempsPasse:
         pygame.time.wait(nDelai)       
 
