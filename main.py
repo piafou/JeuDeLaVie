@@ -153,15 +153,15 @@ def voisin(tableauDeVie,largeur,hauteur,x,y,cyclique):
     else:
         xmoinsun=x-1
         if xmoinsun<1:
-            xmoinsun=largeur-1
+            xmoinsun=largeur-2
         ymoinsun=y-1
         if ymoinsun<1:
-            ymoinsun=hauteur-1
+            ymoinsun=hauteur-2
         xplusun=x+1
-        if xplusun>largeur-1:
+        if xplusun>largeur-2:
             xplusun=1
         yplusun=y+1
-        if yplusun>hauteur-1:
+        if yplusun>hauteur-2:
             yplusun=1
         nVoisin=tableauDeVie[xmoinsun][ymoinsun] + tableauDeVie[x][ymoinsun] + tableauDeVie[xplusun][ymoinsun] + tableauDeVie[xmoinsun][y] + tableauDeVie[xplusun][y] +tableauDeVie[xmoinsun][yplusun] + tableauDeVie[x][yplusun] + tableauDeVie[xplusun][yplusun]
     return nVoisin
@@ -169,11 +169,11 @@ def voisin(tableauDeVie,largeur,hauteur,x,y,cyclique):
 #Applique l'algo du jeu de la vie avance la vie d'un temps
 def evolue(tableauDeVie,largeur,hauteur,cyclique):
     tableauSuivant=[[0 for x in range(largeur)] for y in range(hauteur)]
-    for x in range(largeur):
-        for y in range(hauteur):
+    for x in range(1,largeur-1):
+        for y in range(1,hauteur-1):
             tableauSuivant[x][y]=tableauDeVie[x][y]
-    for x in range(largeur):
-        for y in range(hauteur):
+    for x in range(1,largeur-1):
+        for y in range(1,hauteur-1):
             nVoisin=voisin(tableauDeVie,largeur,hauteur,x,y,cyclique)
             if tableauDeVie[x][y]==1:
                 if nVoisin < 2 or nVoisin > 3:
@@ -181,8 +181,8 @@ def evolue(tableauDeVie,largeur,hauteur,cyclique):
             else:
                 if nVoisin==3:
                     tableauSuivant[x][y]=1
-    for x in range(largeur):
-        for y in range(hauteur):
+    for x in range(1,largeur-1):
+        for y in range(1,hauteur-1):
             tableauDeVie[x][y]=tableauSuivant[x][y]
             
 # dessine tous le tableau
