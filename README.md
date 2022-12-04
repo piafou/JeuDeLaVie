@@ -17,4 +17,7 @@
 # Modification  
 
   les variables du début du prog sont faites pour être changées à votre guise.  
+  
+# ToDo  
 
+  Ajouter des patterns glider gun ...  
