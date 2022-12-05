@@ -4,7 +4,7 @@ import pygame
 pygame.init()
 
 #Taille du tableau de la vie
-largeur=72
+largeur=102
 hauteur=72
 #Taille de la taille d'une brique elementaire d'une cellule (carré)
 taillePixel=10
@@ -13,7 +13,7 @@ tailleQuadrillage=1
 #comme si les bords se touchent
 cyclique=True
 #initialisation de notre tableau de vie
-tableauDeVie=[[0 for x in range(largeur)] for y in range(hauteur)]
+tableauDeVie=[[0 for x in range(hauteur)] for y in range(largeur)]
 #initialisation des différentes couleurs du jeu
 quadrillageCouleur=pygame.Color(50,50,200)
 fondCouleur=pygame.Color(0,0,0)
@@ -168,7 +168,7 @@ def voisin(tableauDeVie,largeur,hauteur,x,y,cyclique):
 
 #Applique l'algo du jeu de la vie avance la vie d'un temps
 def evolue(tableauDeVie,largeur,hauteur,cyclique):
-    tableauSuivant=[[0 for x in range(largeur)] for y in range(hauteur)]
+    tableauSuivant=[[0 for x in range(hauteur)] for y in range(largeur)]
     for x in range(1,largeur-1):
         for y in range(1,hauteur-1):
             tableauSuivant[x][y]=tableauDeVie[x][y]
